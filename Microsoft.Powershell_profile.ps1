@@ -19,6 +19,25 @@ function whois {
 
 # `docker-start` command to quickly start a docker-machine and bind it to the current shell
 function docker-start($machine = 'default') {
-	docker-machine start $machine;
-	docker-machine env $machine --shell=powershell | Invoke-Expression;
+    docker-machine start $machine;
+    docker-machine env $machine --shell=powershell | Invoke-Expression;
+}
+
+# `deploy-test` command to quick copy some file to beta.nannin.ga using PuTTY's pscp
+function deploy-beta() {
+    Param(
+        [Parameter(Mandatory=$True)][string]$path,
+        [Parameter(Mandatory=$True)][string]$destination,
+        [Parameter(Mandatory=$True)][Security.SecureString]$securePassword
+    );
+
+    # convert secureString to plaintext
+    $passwordPointer = [Runtime.InteropServices.Marshal]::SecureStringToBSTR($securePassword)
+    $password = [Runtime.InteropServices.Marshal]::PtrToStringAuto($passwordPointer)
+
+    write-host "Moving " -nonewline
+    write-host "$path" -foreground green -nonewline
+    write-host " to beta.nannin.ga/$destination"
+
+    C:\Tools\Putty\pscp.exe -scp -r -pw $password $path andre@nannin.ga:/var/www/beta.nannin.ga/public/$destination;
 }
