@@ -23,7 +23,7 @@ function docker-start($machine = 'default') {
     docker-machine env $machine --shell=powershell | Invoke-Expression;
 }
 
-# `deploy-test` command to quick copy some file to beta.nannin.ga using PuTTY's pscp
+# `deploy-beta` command to quick copy some file to beta.nannin.ga using PuTTY's pscp
 function deploy-beta() {
     Param(
         [Parameter(Mandatory=$True)][string]$path,
