@@ -23,6 +23,11 @@ function docker-start($machine = 'default') {
     docker-machine env $machine --shell=powershell | Invoke-Expression;
 }
 
+# `docker-clean` command removes all docker containers
+function docker-clean() {
+    docker rm -f $(docker ps -aq);
+}
+
 # `deploy-test` command to quick copy some file to beta.nannin.ga using PuTTY's pscp
 function deploy-beta() {
     Param(
