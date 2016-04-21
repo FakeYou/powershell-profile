@@ -46,3 +46,12 @@ function deploy-beta() {
 
     C:\Tools\Putty\pscp.exe -scp -r -pw $password $path andre@nannin.ga:/var/www/beta.nannin.ga/public/$destination;
 }
+
+function connect-android() {
+    C:\Users\Andre\AppData\Local\Android\android-sdk\platform-tools\adb.exe start-server;
+    C:\Users\Andre\AppData\Local\Android\android-sdk\platform-tools\adb.exe reverse tcp:8081 tcp:8081;
+}
+
+function log-android() {
+    C:\Users\Andre\AppData\Local\Android\android-sdk\platform-tools\adb.exe logcat *:S ReactNative:V ReactNativeJS:V;
+}
