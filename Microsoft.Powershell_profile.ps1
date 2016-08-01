@@ -1,5 +1,12 @@
-# `subl` alias for Sublime Text 3
+# common aliases
 Set-Alias subl "C:\Program Files\Sublime Text 3\subl.exe";
+Set-Alias putty "C:\Program Files\Putty\putty.exe";
+Set-alias reactotron ".\node_modules\.bin\reactotron";
+
+# shortcuts for folder traversal
+function ..() { cd ..; }
+function ...() { cd ..\..; }
+function ....() { cd ..\..\..; }
 
 # `touch` command to quickly create new (empty) files
 function touch { 
@@ -47,11 +54,41 @@ function deploy-beta() {
     C:\Tools\Putty\pscp.exe -scp -r -pw $password $path andre@nannin.ga:/var/www/beta.nannin.ga/public/$destination;
 }
 
-function connect-android() {
-    C:\Users\Andre\AppData\Local\Android\android-sdk\platform-tools\adb.exe start-server;
-    C:\Users\Andre\AppData\Local\Android\android-sdk\platform-tools\adb.exe reverse tcp:8081 tcp:8081;
+# `adb-wifi` connect to a android device over wifi
+function adb-wifi($ip) {
+    adb.exe tcpip 5555;
+    adb.exe connect $ip;
 }
 
-function log-android() {
-    C:\Users\Andre\AppData\Local\Android\android-sdk\platform-tools\adb.exe logcat *:S ReactNative:V ReactNativeJS:V;
+# `adb-react-native` start adb server for react-native development
+function adb-react-native() {
+    adb.exe start-server;
+    adb.exe reverse tcp:8081 tcp:8081;
+}
+
+# `adb-log-react-native` show android logs for react-native
+function adb-log-react-native() {
+    adb.exe logcat *:S ReactNative:V ReactNativeJS:V;
+}
+
+# `rns` start react-native server
+function rns() {
+    react-native start;
+}
+
+
+# `shell` start a new powershell instance at specified path (defaults to current path)
+function shell() {
+    [CmdletBinding()]
+    Param (
+        [Parameter()][AllowNull()][string] $path
+    );
+
+    if ($path -eq "" -and $path -eq [String]::Empty) {
+        $path = pwd;
+    }
+
+    $absolutePath = Resolve-Path $path;
+
+    Start-Process powershell -ArgumentList "-noexit -command Set-Location '$absolutePath'";
 }
