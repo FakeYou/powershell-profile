@@ -9,7 +9,7 @@ function ...() { cd ..\..; }
 function ....() { cd ..\..\..; }
 
 # `touch` command to quickly create new (empty) files
-function touch { 
+function touch {
     New-Item -ItemType file $args[0];
 }
 
@@ -52,6 +52,11 @@ function deploy-beta() {
     write-host " to beta.nannin.ga/$destination"
 
     C:\Tools\Putty\pscp.exe -scp -r -pw $password $path andre@nannin.ga:/var/www/beta.nannin.ga/public/$destination;
+}
+
+# `adb-shake` send 'shake' input to connected android device
+function adb-shake() {
+    adb.exe shell input keyevent 82;
 }
 
 # `adb-wifi` connect to a android device over wifi
